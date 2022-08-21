@@ -1,0 +1,18 @@
+{
+  "posts": [
+    { "id": 1, "title": "json-server", "author": "typicode" }
+  ],
+  "category": [
+    { "id": 1, "name": "Peito" },
+    { "id": 2, "name": "Ombro" },
+    { "id": 3, "name": "Tríceps" },
+    { "id": 4, "name": "Costas" },
+    { "id": 5, "name": "Panturrilha" },
+    { "id": 6, "name": "Quadríceps" },
+    { "id": 7, "name": "Posterior" },
+    { "id": 8, "name": "Glúteo" },
+    { "id": 9, "name": "Abdominal" },
+    { "id": 10, "name": "Aeróbico" },
+    { "id": 11, "name": "Bíceps" }
+  ]
+}
