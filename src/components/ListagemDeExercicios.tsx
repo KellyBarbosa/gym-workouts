@@ -1,76 +1,92 @@
-import { typeExercise, dados } from "./../Estrutura";
+import {ICategory, IExercise } from "./../Estrutura";
 import { useState, useEffect } from "react";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 
-const keyOptions = Object.keys(typeExercise);
-const valueOptions = Object.values(typeExercise);
-
-// console.log(keyOptions);
-//console.log(valueOptions);
+import api from "../services/api";
 
 function ListagemDeExercicios() {
   const [option, setOption] = useState("");
 
-  const [exercises, setExercises] = useState(dados);
+  const [exercises, setExercises] = useState<IExercise[] | undefined>([]);
 
-  /* useEffect(() => {
-    console.log(option);
-    const exercisesFiltered = exercises.filter((dados) => {
-      dados.type.includes(valueOptions[Number(option)]);
-      console.log(valueOptions[Number(option)]);
-    });
-    console.log(exercisesFiltered);
-    setExercises(exercisesFiltered);
-  }, [option]); */
+  const [category, setCategories] = useState<ICategory[] | undefined>([]);
+
+  const loadCategory = () => {
+    return api
+      .get("/category")
+      .then((res) => setCategories(res.data))
+      .catch((err) => console.log("Erro ao carregar as categorias: " + err));
+  };
+
+  const loadExercise = () => {
+    return api
+      .get("/exercises")
+      .then((res) => setExercises(res.data))
+      .catch((err) => console.log("Erro ao carregar os exercícios: " + err));
+  };
+
+  const loadData = async (endpoint: string) => {
+    const response = await api.get(`/${endpoint}`);
+    console.log(response.data);
+    return response.data;
+  };
+
+  useEffect(() => {
+    //loadCategory();
+
+    //loadExercise();
+
+    loadData("category")
+      .then((data) => setCategories(data))
+      .catch((err) => console.log("Erro ao carregar as categorias: " + err));
+
+    loadData("exercises")
+      .then((data) => setExercises(data))
+      .catch((err) => console.log("Erro ao carregar os exercícios: " + err));
+  }, []);
+
+  /* console.log(category);
+  console.log(exercises); */
 
   const handleChange = (event: SelectChangeEvent) => {
     setOption(event.target.value as string);
 
-    exibe();
-  };
-
-  const exibe = () => {
-    const exercisesFiltered = dados.filter((d) => {
-      //d.type.findIndex(valueOptions[Number(option)])
-
-      //console.log(d.type)
-      return d.type.map((t) => t.includes(valueOptions[Number(option)]))
-      /* console.log(d.type.map((t) => t.includes(valueOptions[Number(option)])));
-      console.log(valueOptions[Number(option)]); */
-    });
-    console.log(exercisesFiltered);
-    setExercises(exercisesFiltered);
+    //exibe();
   };
 
   return (
     <div>
-      Tela de listagem de exercícios
+      Tela de listagem de exercícios por categoria
       <FormControl fullWidth>
-        <InputLabel id="input-select-treino">Tipo de Exercício</InputLabel>
+        <InputLabel id="input-select-treino">Categoria</InputLabel>
         <Select
           labelId="selectLabel"
           id="selectId"
           value={option}
-          label="Tipo de Exercício"
+          label="Categoria"
           onChange={handleChange}
         >
-          {valueOptions.map((option) => (
-            <MenuItem
-              key={valueOptions.indexOf(option)}
-              value={valueOptions.indexOf(option)}
-            >
-              {option}
-            </MenuItem>
-          ))}
+          {category &&
+            category.map((option) => (
+              <MenuItem key={option.id} value={option.id}>
+                {option.name}
+              </MenuItem>
+            ))}
         </Select>
       </FormControl>
       <hr />
-      {exercises.map((ef) => (
-        <li>{ef.name}</li>
-      ))}
+      {/* {category && category.map((option) => (
+            <li
+              key={option.id}
+            >
+              {option.name}
+            </li>
+          ))} */}
+      {exercises &&
+        exercises.map((option) => <li key={option.id}>{option.name}</li>)}
       <hr />
     </div>
   );

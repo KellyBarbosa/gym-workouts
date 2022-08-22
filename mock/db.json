@@ -1,6 +1,69 @@
 {
-  "posts": [
-    { "id": 1, "title": "json-server", "author": "typicode" }
+  "exercises": [
+    {
+      "id": 1,
+      "name": "Agachamento barra",
+      "series": "4",
+      "repeat": "Falha",
+      "weight": "Aumentando a carga",
+      "category": [6, 8]
+    },
+    {
+      "id": 2,
+      "name": "Avanço livre",
+      "series": "3",
+      "repeat": "Falha",
+      "weight": "0",
+      "category": [6]
+    },
+    {
+      "id": 3,
+      "name": "Hack machine",
+      "series": "4",
+      "repeat": "10 + 5 curtas + 10 agachamentos livres",
+      "weight": "0",
+      "category": [6]
+    },
+    {
+      "id": 4,
+      "name": "Panturrilha sentada",
+      "series": "5",
+      "repeat": "15",
+      "weight": "0",
+      "category": [5]
+    },
+    {
+      "id": 5,
+      "name": "Puxador frente pronado",
+      "series": "4",
+      "repeat": "12",
+      "weight": "0",
+      "category": [4]
+    },
+    {
+      "id": 6,
+      "name": "Elevação lateral",
+      "series": "3",
+      "repeat": "12",
+      "weight": "0",
+      "category": [2]
+    },
+    {
+      "id": 7,
+      "name": "Rosca direta W",
+      "series": "3",
+      "repeat": "10",
+      "weight": "0",
+      "category": [11]
+    },
+    {
+      "id": 8,
+      "name": "Esteira",
+      "series": "6",
+      "repeat": "6 tiros de 30 segundos + 1 caminhando",
+      "weight": "0",
+      "category": [10]
+    }
   ],
   "category": [
     { "id": 1, "name": "Peito" },

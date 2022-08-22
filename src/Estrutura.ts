@@ -1,10 +1,20 @@
-export interface IExercise {
+/* export interface IExercise {
   name: string;
   series: string;
   repeat: string;
   weight: string;
-  type: typeExercise[];
+  category: ICategory[];
+} */
+
+export interface IExercise {
+  id: number
+  name: string;
+  series: string;
+  repeat: string;
+  weight: string;
+  category: number[];
 }
+
 
 export enum typeExercise {
   peito = "Peito",

@@ -11,7 +11,7 @@ function App() {
     <div className="App">
       <ListagemDeExercicios />
       
-      {exercises.map((exercise) => (
+     {/*  {exercises.map((exercise) => (
         <li key={exercise.name}>
           {exercise.name} | {exercise.series} | {exercise.repeat} |{" "}
           {exercise.weight} -
@@ -19,7 +19,7 @@ function App() {
             <strong key={et}> {et}</strong>
           ))}
         </li>
-      ))}
+      ))} */}
     </div>
   );
 }
