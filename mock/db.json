@@ -65,7 +65,7 @@
       "category": [10]
     }
   ],
-  "category": [
+  "categories": [
     { "id": 1, "name": "Peito" },
     { "id": 2, "name": "Ombro" },
     { "id": 3, "name": "Tríceps" },

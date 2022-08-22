@@ -1,4 +1,4 @@
-import {ICategory, IExercise } from "./../Estrutura";
+import { ICategory, IExercise } from "../services/Structure";
 import { useState, useEffect } from "react";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
@@ -8,38 +8,20 @@ import FormControl from "@mui/material/FormControl";
 import api from "../services/api";
 
 function ListagemDeExercicios() {
-  const [option, setOption] = useState("");
-
+  const [option, setOption] = useState("0");
   const [exercises, setExercises] = useState<IExercise[] | undefined>([]);
-
   const [category, setCategories] = useState<ICategory[] | undefined>([]);
-
-  const loadCategory = () => {
-    return api
-      .get("/category")
-      .then((res) => setCategories(res.data))
-      .catch((err) => console.log("Erro ao carregar as categorias: " + err));
-  };
-
-  const loadExercise = () => {
-    return api
-      .get("/exercises")
-      .then((res) => setExercises(res.data))
-      .catch((err) => console.log("Erro ao carregar os exercícios: " + err));
-  };
+  const [exercisesFiltered, setExercisesFiltered] = useState<
+    IExercise[] | undefined
+  >([]);
 
   const loadData = async (endpoint: string) => {
     const response = await api.get(`/${endpoint}`);
-    console.log(response.data);
     return response.data;
   };
 
   useEffect(() => {
-    //loadCategory();
-
-    //loadExercise();
-
-    loadData("category")
+    loadData("categories")
       .then((data) => setCategories(data))
       .catch((err) => console.log("Erro ao carregar as categorias: " + err));
 
@@ -48,13 +30,21 @@ function ListagemDeExercicios() {
       .catch((err) => console.log("Erro ao carregar os exercícios: " + err));
   }, []);
 
-  /* console.log(category);
-  console.log(exercises); */
+  const filtra = (category: number) => {
+    /*  console.log(typeof(category));
+    console.log(category); */
+    const filtered = exercises?.filter((exercise) =>
+      exercise.category.includes(category)
+    );
+    console.log(filtered);
+    console.log(filtered?.length);
+    setExercisesFiltered(filtered);
+  };
 
   const handleChange = (event: SelectChangeEvent) => {
     setOption(event.target.value as string);
 
-    //exibe();
+    filtra(Number(event.target.value));
   };
 
   return (
@@ -69,25 +59,37 @@ function ListagemDeExercicios() {
           label="Categoria"
           onChange={handleChange}
         >
+          <MenuItem value={0}>
+                Selecione uma categoria
+              </MenuItem>
           {category &&
             category.map((option) => (
               <MenuItem key={option.id} value={option.id}>
-                {option.name}
+                {option.name} - {option.id}
               </MenuItem>
             ))}
         </Select>
       </FormControl>
       <hr />
-      {/* {category && category.map((option) => (
-            <li
-              key={option.id}
-            >
-              {option.name}
-            </li>
-          ))} */}
       {exercises &&
         exercises.map((option) => <li key={option.id}>{option.name}</li>)}
       <hr />
+      {/* {exercisesFiltered && exercisesFiltered?.length > 0 ? (
+        exercisesFiltered.map((option) => (
+          <li key={option.id}>{option.name}</li>
+        ))
+      ) : (
+        <h2>Não há exercícios desta categoria cadastrados no momento!</h2>
+      )} */}
+      {option == "0" ? (
+        <h2>Selecione uma categoria de treino!</h2>
+      ) : exercisesFiltered && exercisesFiltered?.length > 0 ? (
+        exercisesFiltered.map((option) => (
+          <li key={option.id}>{option.name}</li>
+        ))
+      ) : (
+        <h2>Não há exercícios desta categoria cadastrados no momento!</h2>
+      )}
     </div>
   );
 }
