@@ -1,11 +1,12 @@
-import { ICategory, IExercise } from "../services/Structure";
 import { useState, useEffect } from "react";
+
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 
-import api from "../services/api";
+import { ICategory, IExercise } from "../services/Structure";
+import { loadData } from "../services/services"
 
 function ListagemDeExercicios() {
   const [option, setOption] = useState("0");
@@ -15,10 +16,10 @@ function ListagemDeExercicios() {
     IExercise[] | undefined
   >([]);
 
-  const loadData = async (endpoint: string) => {
+  /* const loadData = async (endpoint: string) => {
     const response = await api.get(`/${endpoint}`);
     return response.data;
-  };
+  }; */
 
   useEffect(() => {
     loadData("categories")
@@ -36,12 +37,12 @@ function ListagemDeExercicios() {
     const filtered = exercises?.filter((exercise) =>
       exercise.category.includes(category)
     );
-    console.log(filtered);
-    console.log(filtered?.length);
+    /* console.log(filtered);
+    console.log(filtered?.length); */
     setExercisesFiltered(filtered);
   };
 
-  const handleChange = (event: SelectChangeEvent) => {
+  const handleChangeCategory = (event: SelectChangeEvent) => {
     setOption(event.target.value as string);
 
     filtra(Number(event.target.value));
@@ -49,15 +50,15 @@ function ListagemDeExercicios() {
 
   return (
     <div>
-      Tela de listagem de exercícios por categoria
+     <h2> Tela de listagem de exercícios por categoria </h2>
       <FormControl fullWidth>
-        <InputLabel id="input-select-treino">Categoria</InputLabel>
+        <InputLabel id="selectId">Categoria</InputLabel>
         <Select
           labelId="selectLabel"
           id="selectId"
           value={option}
           label="Categoria"
-          onChange={handleChange}
+          onChange={handleChangeCategory}
         >
           <MenuItem value={0}>
                 Selecione uma categoria

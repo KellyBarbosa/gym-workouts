@@ -6,7 +6,10 @@
       "series": "4",
       "repeat": "Falha",
       "weight": "Aumentando a carga",
-      "category": [6, 8]
+      "category": [
+        6,
+        8
+      ]
     },
     {
       "id": 2,
@@ -14,7 +17,9 @@
       "series": "3",
       "repeat": "Falha",
       "weight": "0",
-      "category": [6]
+      "category": [
+        6
+      ]
     },
     {
       "id": 3,
@@ -22,7 +27,9 @@
       "series": "4",
       "repeat": "10 + 5 curtas + 10 agachamentos livres",
       "weight": "0",
-      "category": [6]
+      "category": [
+        6
+      ]
     },
     {
       "id": 4,
@@ -30,7 +37,9 @@
       "series": "5",
       "repeat": "15",
       "weight": "0",
-      "category": [5]
+      "category": [
+        5
+      ]
     },
     {
       "id": 5,
@@ -38,7 +47,9 @@
       "series": "4",
       "repeat": "12",
       "weight": "0",
-      "category": [4]
+      "category": [
+        4
+      ]
     },
     {
       "id": 6,
@@ -46,7 +57,9 @@
       "series": "3",
       "repeat": "12",
       "weight": "0",
-      "category": [2]
+      "category": [
+        2
+      ]
     },
     {
       "id": 7,
@@ -54,7 +67,9 @@
       "series": "3",
       "repeat": "10",
       "weight": "0",
-      "category": [11]
+      "category": [
+        11
+      ]
     },
     {
       "id": 8,
@@ -62,20 +77,63 @@
       "series": "6",
       "repeat": "6 tiros de 30 segundos + 1 caminhando",
       "weight": "0",
-      "category": [10]
+      "category": [
+        10
+      ]
+    },
+    {
+      "id": 9,
+      "name": "Stiff",
+      "series": "4",
+      "repeat": "15",
+      "weight": "0",
+      "category": 7
     }
   ],
   "categories": [
-    { "id": 1, "name": "Peito" },
-    { "id": 2, "name": "Ombro" },
-    { "id": 3, "name": "Tríceps" },
-    { "id": 4, "name": "Costas" },
-    { "id": 5, "name": "Panturrilha" },
-    { "id": 6, "name": "Quadríceps" },
-    { "id": 7, "name": "Posterior" },
-    { "id": 8, "name": "Glúteo" },
-    { "id": 9, "name": "Abdominal" },
-    { "id": 10, "name": "Aeróbico" },
-    { "id": 11, "name": "Bíceps" }
+    {
+      "id": 1,
+      "name": "Peito"
+    },
+    {
+      "id": 2,
+      "name": "Ombro"
+    },
+    {
+      "id": 3,
+      "name": "Tríceps"
+    },
+    {
+      "id": 4,
+      "name": "Costas"
+    },
+    {
+      "id": 5,
+      "name": "Panturrilha"
+    },
+    {
+      "id": 6,
+      "name": "Quadríceps"
+    },
+    {
+      "id": 7,
+      "name": "Posterior"
+    },
+    {
+      "id": 8,
+      "name": "Glúteo"
+    },
+    {
+      "id": 9,
+      "name": "Abdominal"
+    },
+    {
+      "id": 10,
+      "name": "Aeróbico"
+    },
+    {
+      "id": 11,
+      "name": "Bíceps"
+    }
   ]
 }
