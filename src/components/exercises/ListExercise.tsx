@@ -4,9 +4,17 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import { ICategory, IExercise } from "../../services/Structure";
-import { loadData } from "../../services/services"
+import { loadData } from "../../services/services";
+
+import {
+  getAllExercises,
+  removeExercise,
+  updateExercise,
+} from "../../services/ExerciseService";
+import { Button } from "@mui/material";
 
 function ListExercise() {
   const [option, setOption] = useState("0");
@@ -16,29 +24,20 @@ function ListExercise() {
     IExercise[] | undefined
   >([]);
 
-  /* const loadData = async (endpoint: string) => {
-    const response = await api.get(`/${endpoint}`);
-    return response.data;
-  }; */
-
   useEffect(() => {
     loadData("categories")
       .then((data) => setCategories(data))
       .catch((err) => console.log("Erro ao carregar as categorias: " + err));
 
-    loadData("exercises")
+    getAllExercises()
       .then((data) => setExercises(data))
       .catch((err) => console.log("Erro ao carregar os exercícios: " + err));
   }, []);
 
   const filtra = (category: number) => {
-    /*  console.log(typeof(category));
-    console.log(category); */
     const filtered = exercises?.filter((exercise) =>
       exercise.category.includes(category)
     );
-    /* console.log(filtered);
-    console.log(filtered?.length); */
     setExercisesFiltered(filtered);
   };
 
@@ -48,9 +47,13 @@ function ListExercise() {
     filtra(Number(event.target.value));
   };
 
+  const deleteExercise = (idExercise: number) => {
+    removeExercise(idExercise);
+  };
+
   return (
     <div>
-     <h2> Tela de listagem de exercícios por categoria </h2>
+      <h2> Tela de listagem de exercícios por categoria </h2>
       <FormControl fullWidth>
         <InputLabel id="selectId">Categoria</InputLabel>
         <Select
@@ -60,9 +63,7 @@ function ListExercise() {
           label="Categoria"
           onChange={handleChangeCategory}
         >
-          <MenuItem value={0}>
-                Selecione uma categoria
-              </MenuItem>
+          <MenuItem value={0}>Selecione uma categoria</MenuItem>
           {category &&
             category.map((option) => (
               <MenuItem key={option.id} value={option.id}>
@@ -72,21 +73,17 @@ function ListExercise() {
         </Select>
       </FormControl>
       <hr />
-      {exercises &&
+      {/* {exercises &&
         exercises.map((option) => <li key={option.id}>{option.name}</li>)}
-      <hr />
-      {/* {exercisesFiltered && exercisesFiltered?.length > 0 ? (
-        exercisesFiltered.map((option) => (
-          <li key={option.id}>{option.name}</li>
-        ))
-      ) : (
-        <h2>Não há exercícios desta categoria cadastrados no momento!</h2>
-      )} */}
+      <hr /> */}
       {option == "0" ? (
         <h2>Selecione uma categoria de treino!</h2>
       ) : exercisesFiltered && exercisesFiltered?.length > 0 ? (
         exercisesFiltered.map((option) => (
-          <li key={option.id}>{option.name}</li>
+          <li key={option.id}>
+            {option.name}{" "} -----
+            <DeleteIcon onClick={() => deleteExercise(option.id)}/>
+          </li>
         ))
       ) : (
         <h2>Não há exercícios desta categoria cadastrados no momento!</h2>

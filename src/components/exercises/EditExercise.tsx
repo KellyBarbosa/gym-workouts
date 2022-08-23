@@ -23,46 +23,19 @@ function EditExercise() {
   };
 
 const patchExercise = () => {
-  updateExercise(9, 'exercises', name, series, repeat, weight, Number(option))
+  updateExercise(9, name, series, repeat, weight, Number(option))
 } 
 
 const deleteExercise = () => {
-  removeExercise(11, 'exercises')
+  removeExercise(11)
 } 
-  const saveExercise = () => {
-    const erro = [];
-    if (name.trim().length == 0) {
-      erro.push("Preencha o nome!");
-      //return
-    }
-    if (series.trim().length == 0) {
-      erro.push("Preencha a quantidade de séries!");
-      //return
-    }
-    if (repeat.trim().length == 0) {
-      erro.push("Preencha a quantidade de repetições!");
-      //return
-    }
-    if (weight.trim().length == 0) {
-      erro.push("Preencha carga do exercício!");
-      //return
-    }
-    if(option == ""){
-      erro.push("Preencha categoria do exercício!");
-    }
-    if (erro.length > 0) {
-      console.log(erro);
-    } else {
-      createExercise('exercises', name, series, repeat, weight, [Number(option)])
-    }
-  };
 
   useEffect(() => {
     loadData("categories")
       .then((data) => setCategories(data))
       .catch((err) => console.log("Erro ao carregar as categorias: " + err));
 
-    loadData("exercises")
+    getAllExercises()
       .then((data) => setExercises(data))
       .catch((err) => console.log("Erro ao carregar os exercícios: " + err));
   }, []);
@@ -128,9 +101,6 @@ const deleteExercise = () => {
             ))}
         </TextField>
 
-        <Button onClick={saveExercise} variant="outlined">
-          Salvar
-        </Button>
         <Button onClick={patchExercise} variant="outlined">
           Atualizar
         </Button>

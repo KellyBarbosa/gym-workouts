@@ -1,41 +1,39 @@
 import api from "../services/api";
 import { IExercise } from "./Structure";
 
-export const getAllExercises = async (endpoint: string) => {
-  const response = await api.get(`/${endpoint}`);
+export const getAllExercises = async () => {
+  const response = await api.get(`/exercises`);
   return response.data;
 };
 
-export const getExerciseById = async (endpoint: string, idExercise: number) => {
-  const { data } = await api.get(`/${endpoint}/${idExercise}`);
+export const getExerciseById = async (idExercise: number) => {
+  const { data } = await api.get(`/exercises/${idExercise}`);
   return data;
 };
 
-export const removeExercise = async (idExercise: number, endpoint: string) => {
+export const removeExercise = async (idExercise: number) => {
     api
-      .delete(`/${endpoint}/${idExercise}`)
+      .delete(`/exercises/${idExercise}`)
       .then(() => {
         console.log("Exercício removido com sucesso!");
       })
       .catch((err) => {
         console.log("Erro ao remover o exercício! " + err);
       });
-  
 };
 
 export const createExercise = async (
-  endpoint: string,
   name: string,
   series: string,
   repeat: string,
   weight: string,
   category: number[]
 ) => {
-  const response = await getAllExercises(endpoint);
+  const response = await getAllExercises();
   /* console.log(response)
     console.log(response?.at(-1).id + 1) */
   api
-    .post(`/${endpoint}`, {
+    .post(`/exercises`, {
       id: response?.at(-1).id + 1,
       name,
       series,
@@ -53,14 +51,13 @@ export const createExercise = async (
 
 export const updateExercise = async (
   idExercise: number,
-  endpoint: string,
   name: string,
   series: string,
   repeat: string,
   weight: string,
   category: number
 ) => {
-  const response = await getExerciseById(endpoint, idExercise);
+  const response = await getExerciseById(idExercise);
   console.log(response.category);
 
   const filteredCategories = response?.category.includes(category);
@@ -72,7 +69,7 @@ export const updateExercise = async (
   if (filteredCategories) {
     filteredCategories.category.put(category);
     api
-      .patch(`/${endpoint}/${idExercise}`, {
+      .patch(`/exercises/${idExercise}`, {
         name,
         series,
         repeat,
@@ -87,7 +84,7 @@ export const updateExercise = async (
       });
   } else {
     api
-      .patch(`/${endpoint}/${idExercise}`, {
+      .patch(`/exercises/${idExercise}`, {
         name,
         series,
         repeat,

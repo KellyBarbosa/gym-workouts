@@ -4,9 +4,14 @@ import { Button, MenuItem, TextField } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 
 import { ICategory, IExercise } from "../../services/Structure";
-import { loadData } from "../../services/services"
+import { loadData } from "../../services/services";
 
-import {getAllExercises, createExercise, removeExercise, updateExercise} from '../../services/ExerciseService'
+import {
+  getAllExercises,
+  createExercise,
+  removeExercise,
+  updateExercise,
+} from "../../services/ExerciseService";
 
 function RegisterExercise() {
   const [option, setOption] = useState("");
@@ -22,13 +27,13 @@ function RegisterExercise() {
     setOption(event.target.value);
   };
 
-const patchExercise = () => {
-  updateExercise(9, 'exercises', name, series, repeat, weight, Number(option))
-} 
+  const patchExercise = () => {
+    updateExercise(9, name, series, repeat, weight, Number(option));
+  };
 
-const deleteExercise = () => {
-  removeExercise(11, 'exercises')
-} 
+  const deleteExercise = () => {
+    removeExercise(11);
+  };
   const saveExercise = () => {
     const erro = [];
     if (name.trim().length == 0) {
@@ -47,13 +52,15 @@ const deleteExercise = () => {
       erro.push("Preencha carga do exercício!");
       //return
     }
-    if(option == ""){
+    if (option == "") {
       erro.push("Preencha categoria do exercício!");
     }
     if (erro.length > 0) {
       console.log(erro);
     } else {
-      createExercise('exercises', name, series, repeat, weight, [Number(option)])
+      createExercise( name, series, repeat, weight, [
+        Number(option),
+      ]);
     }
   };
 
