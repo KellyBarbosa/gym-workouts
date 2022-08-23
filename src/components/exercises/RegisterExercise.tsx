@@ -3,11 +3,12 @@ import { useEffect, useState } from "react";
 import { Button, MenuItem, TextField } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 
-import { ICategory, IExercise } from "../services/Structure";
-import { loadData } from "../services/services";
-import api from "../services/api";
+import { ICategory, IExercise } from "../../services/Structure";
+import { loadData } from "../../services/services"
 
-function CadastroDeExercicios() {
+import {getAllExercises, createExercise, removeExercise, updateExercise} from '../../services/ExerciseService'
+
+function RegisterExercise() {
   const [option, setOption] = useState("");
   const [exercises, setExercises] = useState<IExercise[] | undefined>([]);
   const [category, setCategories] = useState<ICategory[] | undefined>([]);
@@ -21,6 +22,13 @@ function CadastroDeExercicios() {
     setOption(event.target.value);
   };
 
+const patchExercise = () => {
+  updateExercise(9, 'exercises', name, series, repeat, weight, Number(option))
+} 
+
+const deleteExercise = () => {
+  removeExercise(11, 'exercises')
+} 
   const saveExercise = () => {
     const erro = [];
     if (name.trim().length == 0) {
@@ -45,14 +53,7 @@ function CadastroDeExercicios() {
     if (erro.length > 0) {
       console.log(erro);
     } else {
-      api.post("/exercises", {
-        id: exercises?.length + 1,
-        name: name,
-        series: series,
-        repeat: repeat,
-        weight: weight,
-        category: option,
-      });
+      createExercise('exercises', name, series, repeat, weight, [Number(option)])
     }
   };
 
@@ -130,6 +131,12 @@ function CadastroDeExercicios() {
         <Button onClick={saveExercise} variant="outlined">
           Salvar
         </Button>
+        <Button onClick={patchExercise} variant="outlined">
+          Atualizar
+        </Button>
+        <Button onClick={deleteExercise} variant="outlined">
+          Remover
+        </Button>
 
         {/* <InputLabel id="category">Categoria</InputLabel>
         <Select
@@ -152,4 +159,4 @@ function CadastroDeExercicios() {
   );
 }
 
-export default CadastroDeExercicios;
+export default RegisterExercise;

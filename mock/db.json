@@ -87,7 +87,19 @@
       "series": "4",
       "repeat": "15",
       "weight": "0",
-      "category": 7
+      "category": [
+        7
+      ]
+    },
+    {
+      "id": 10,
+      "name": "Mesa flexora",
+      "series": "4",
+      "repeat": "15",
+      "weight": "0",
+      "category": [
+        7
+      ]
     }
   ],
   "categories": [

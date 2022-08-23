@@ -5,10 +5,10 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 
-import { ICategory, IExercise } from "../services/Structure";
-import { loadData } from "../services/services"
+import { ICategory, IExercise } from "../../services/Structure";
+import { loadData } from "../../services/services"
 
-function ListagemDeExercicios() {
+function ListExercise() {
   const [option, setOption] = useState("0");
   const [exercises, setExercises] = useState<IExercise[] | undefined>([]);
   const [category, setCategories] = useState<ICategory[] | undefined>([]);
@@ -95,4 +95,4 @@ function ListagemDeExercicios() {
   );
 }
 
-export default ListagemDeExercicios;
+export default ListExercise;
