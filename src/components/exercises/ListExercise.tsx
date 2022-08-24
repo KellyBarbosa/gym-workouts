@@ -21,7 +21,7 @@ import {
 function ListExercise() {
   const [option, setOption] = useState("0");
   const [exercises, setExercises] = useState<IExercise[] | undefined>([]);
-  const [category, setCategories] = useState<ICategory[] | undefined>([]);
+  const [categories, setCategories] = useState<ICategory[] | undefined>([]);
   const [exercisesFiltered, setExercisesFiltered] = useState<
     IExercise[] | undefined
   >([]);
@@ -36,9 +36,9 @@ function ListExercise() {
       .catch((err) => console.log("Erro ao carregar os exercícios: " + err));
   }, []);
 
-  const filtra = (category: number) => {
+  const filtra = (idCategory: number) => {
     const filtered = exercises?.filter((exercise) =>
-      exercise.category.includes(category)
+      exercise.category.includes(idCategory)
     );
     setExercisesFiltered(filtered);
   };
@@ -66,10 +66,10 @@ function ListExercise() {
           onChange={handleChangeCategory}
         >
           <MenuItem value={0}>Selecione uma categoria</MenuItem>
-          {category &&
-            category.map((option) => (
-              <MenuItem key={option.id} value={option.id}>
-                {option.name} - {option.id}
+          {categories &&
+            categories.map((category) => (
+              <MenuItem key={category.id} value={category.id}>
+                {category.name} - {category.id}
               </MenuItem>
             ))}
         </Select>

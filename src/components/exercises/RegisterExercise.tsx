@@ -4,7 +4,6 @@ import { Button, MenuItem, TextField } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 
 import { ICategory, IExercise } from "../../services/Structure";
-import { loadData } from "../../services/services";
 
 import {
   getAllExercises,
@@ -12,11 +11,14 @@ import {
   removeExercise,
   updateExercise,
 } from "../../services/ExerciseService";
+import {
+  getAllCategories,
+} from "../../services/CategoryService";
 
 function RegisterExercise() {
   const [option, setOption] = useState("");
   const [exercises, setExercises] = useState<IExercise[] | undefined>([]);
-  const [category, setCategories] = useState<ICategory[] | undefined>([]);
+  const [categories, setCategories] = useState<ICategory[] | undefined>([]);
 
   const [name, setName] = useState<string>("");
   const [series, setSeries] = useState<string>("");
@@ -65,11 +67,11 @@ function RegisterExercise() {
   };
 
   useEffect(() => {
-    loadData("categories")
+    getAllCategories()
       .then((data) => setCategories(data))
       .catch((err) => console.log("Erro ao carregar as categorias: " + err));
 
-    loadData("exercises")
+    getAllExercises()
       .then((data) => setExercises(data))
       .catch((err) => console.log("Erro ao carregar os exercícios: " + err));
   }, []);
@@ -127,10 +129,10 @@ function RegisterExercise() {
           onChange={handleChangeCategory}
           helperText="Select a category"
         >
-          {category &&
-            category.map((option) => (
-              <MenuItem key={option.id} value={option.id}>
-                {option.name} - {option.id}
+          {categories &&
+            categories.map((category) => (
+              <MenuItem key={category.id} value={category.id}>
+                {category.name} - {category.id}
               </MenuItem>
             ))}
         </TextField>
@@ -145,22 +147,6 @@ function RegisterExercise() {
           Remover
         </Button>
 
-        {/* <InputLabel id="category">Categoria</InputLabel>
-        <Select
-          labelId="category"
-          id="category"
-          value={option}
-          label="Categoria"
-          onChange={handleChange}
-        >
-          <MenuItem value={0}>Selecione uma categoria</MenuItem>
-          {category &&
-            category.map((option) => (
-              <MenuItem key={option.id} value={option.id}>
-                {option.name} - {option.id}
-              </MenuItem>
-            ))}
-        </Select> */}
       </FormControl>
     </div>
   );

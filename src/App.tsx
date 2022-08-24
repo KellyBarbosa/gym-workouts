@@ -1,20 +1,13 @@
 import "./App.css";
 
-import RegisterExercise from "./components/exercises/RegisterExercise";
-import ListExercise from "./components/exercises/ListExercise";
-import EditExercise from "./components/exercises/EditExercise";
+import Navigation from "./components/Navigation";
+import AppRoutes from "./routes";
 
 function App() {
   return (
     <div className="App">
-      <RegisterExercise />
-      <hr/>
-      <hr/>
-      <EditExercise />
-      <hr/>
-      <hr/>
-      <ListExercise />
-      
+      <Navigation />
+      <AppRoutes />
     </div>
   );
 }

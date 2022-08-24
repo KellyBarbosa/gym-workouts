@@ -5,12 +5,17 @@ import FormControl from "@mui/material/FormControl";
 
 import { ICategory, IExercise } from "../../services/Structure";
 
-import {getAllExercises, removeExercise, updateExercise} from '../../services/ExerciseService'
+import {
+  getAllExercises,
+  createExercise,
+  removeExercise,
+  updateExercise,
+} from "../../services/ExerciseService";
 import {
   getAllCategories,
 } from "../../services/CategoryService";
 
-function EditExercise() {
+function RegisterCategory() {
   const [option, setOption] = useState("");
   const [exercises, setExercises] = useState<IExercise[] | undefined>([]);
   const [categories, setCategories] = useState<ICategory[] | undefined>([]);
@@ -24,13 +29,42 @@ function EditExercise() {
     setOption(event.target.value);
   };
 
-const patchExercise = () => {
-  updateExercise(9, name, series, repeat, weight, Number(option))
-} 
+  const patchExercise = () => {
+    updateExercise(9, name, series, repeat, weight, Number(option));
+  };
 
-const deleteExercise = () => {
-  removeExercise(11)
-} 
+  const deleteExercise = () => {
+    removeExercise(11);
+  };
+  const saveExercise = () => {
+    const erro = [];
+    if (name.trim().length == 0) {
+      erro.push("Preencha o nome!");
+      //return
+    }
+    if (series.trim().length == 0) {
+      erro.push("Preencha a quantidade de séries!");
+      //return
+    }
+    if (repeat.trim().length == 0) {
+      erro.push("Preencha a quantidade de repetições!");
+      //return
+    }
+    if (weight.trim().length == 0) {
+      erro.push("Preencha carga do exercício!");
+      //return
+    }
+    if (option == "") {
+      erro.push("Preencha categoria do exercício!");
+    }
+    if (erro.length > 0) {
+      console.log(erro);
+    } else {
+      createExercise( name, series, repeat, weight, [
+        Number(option),
+      ]);
+    }
+  };
 
   useEffect(() => {
     getAllCategories()
@@ -45,7 +79,7 @@ const deleteExercise = () => {
   return (
     <div>
       {" "}
-      <h2>Tela de edição dos Exercícios </h2>
+      <h2>Tela de Cadastro de Exercícios </h2>
       <FormControl fullWidth>
         <TextField
           label="Nome"
@@ -103,6 +137,9 @@ const deleteExercise = () => {
             ))}
         </TextField>
 
+        <Button onClick={saveExercise} variant="outlined">
+          Salvar
+        </Button>
         <Button onClick={patchExercise} variant="outlined">
           Atualizar
         </Button>
@@ -131,4 +168,4 @@ const deleteExercise = () => {
   );
 }
 
-export default EditExercise;
+export default RegisterCategory;
