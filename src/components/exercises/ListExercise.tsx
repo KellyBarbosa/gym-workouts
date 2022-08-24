@@ -5,16 +5,18 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 import { ICategory, IExercise } from "../../services/Structure";
-import { loadData } from "../../services/services";
 
 import {
   getAllExercises,
   removeExercise,
-  updateExercise,
 } from "../../services/ExerciseService";
-import { Button } from "@mui/material";
+
+import {
+  getAllCategories,
+} from "../../services/CategoryService";
 
 function ListExercise() {
   const [option, setOption] = useState("0");
@@ -25,7 +27,7 @@ function ListExercise() {
   >([]);
 
   useEffect(() => {
-    loadData("categories")
+    getAllCategories()
       .then((data) => setCategories(data))
       .catch((err) => console.log("Erro ao carregar as categorias: " + err));
 
@@ -82,7 +84,7 @@ function ListExercise() {
         exercisesFiltered.map((option) => (
           <li key={option.id}>
             {option.name}{" "} -----
-            <DeleteIcon onClick={() => deleteExercise(option.id)}/>
+            <DeleteIcon onClick={() => deleteExercise(option.id)}/> ----- <EditIcon onClick = {() => console.log("Editar")}/>
           </li>
         ))
       ) : (

@@ -6,7 +6,7 @@ import FormControl from "@mui/material/FormControl";
 import { ICategory, IExercise } from "../../services/Structure";
 import { loadData } from "../../services/services";
 
-import {getAllExercises, createExercise, removeExercise, updateExercise} from '../../services/ExerciseService'
+import {getAllExercises, removeExercise, updateExercise} from '../../services/ExerciseService'
 
 function EditExercise() {
   const [option, setOption] = useState("");

@@ -1,9 +1,8 @@
 import api from "../services/api";
-import { IExercise } from "./Structure";
 
 export const getAllExercises = async () => {
-  const response = await api.get(`/exercises`);
-  return response.data;
+  const { data } = await api.get("/exercises");
+  return data ;
 };
 
 export const getExerciseById = async (idExercise: number) => {
@@ -12,14 +11,14 @@ export const getExerciseById = async (idExercise: number) => {
 };
 
 export const removeExercise = async (idExercise: number) => {
-    api
-      .delete(`/exercises/${idExercise}`)
-      .then(() => {
-        console.log("Exercício removido com sucesso!");
-      })
-      .catch((err) => {
-        console.log("Erro ao remover o exercício! " + err);
-      });
+  api
+    .delete(`/exercises/${idExercise}`)
+    .then(() => {
+      console.log("Exercício removido com sucesso!");
+    })
+    .catch((err) => {
+      console.log("Erro ao remover o exercício! " + err);
+    });
 };
 
 export const createExercise = async (
@@ -30,10 +29,8 @@ export const createExercise = async (
   category: number[]
 ) => {
   const response = await getAllExercises();
-  /* console.log(response)
-    console.log(response?.at(-1).id + 1) */
   api
-    .post(`/exercises`, {
+    .post("/exercises", {
       id: response?.at(-1).id + 1,
       name,
       series,
@@ -58,23 +55,15 @@ export const updateExercise = async (
   category: number
 ) => {
   const response = await getExerciseById(idExercise);
-  console.log(response.category);
-
-  const filteredCategories = response?.category.includes(category);
-  
-  /* response?.filter((exercise: IExercise) => {
-    exercise.category.includes(category);
-  }); */
-  console.log(filteredCategories);
-  if (filteredCategories) {
-    filteredCategories.category.put(category);
+ 
+   if (!response?.category.includes(category)) {
     api
       .patch(`/exercises/${idExercise}`, {
         name,
         series,
         repeat,
         weight,
-        category: filteredCategories.category,
+        category: [...response.category, category],
       })
       .then(() => {
         console.log("Exercício atualizado com sucesso!");
@@ -89,7 +78,6 @@ export const updateExercise = async (
         series,
         repeat,
         weight,
-        category,
       })
       .then(() => {
         console.log("Exercício atualizado com sucesso!");
@@ -97,5 +85,5 @@ export const updateExercise = async (
       .catch((err) => {
         console.log("Erro ao atualizar o exercício! " + err);
       });
-  } 
+  }  
 };
