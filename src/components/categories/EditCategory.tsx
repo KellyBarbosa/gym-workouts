@@ -3,31 +3,28 @@ import { useEffect, useState } from "react";
 import { Button, TextField } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 
-import { ICategory } from "../../services/Structure";
-
 import {
-  getAllCategories,
-  removeCategory
+  removeCategory,
+  updateCategory,
 } from "../../services/CategoryService";
 
+import { useLocation, useNavigate } from "react-router-dom";
+
 function EditCategory() {
-  const [categories, setCategories] = useState<ICategory[] | undefined>([]);
+  const { state } = useLocation();
+  const navigate = useNavigate();
 
-  const [name, setName] = useState<string>("");
+  const [name, setName] = useState<string>(state.name);
 
-const patchCategorie = () => {
-  //updateExercise(9, name, series, repeat, weight, Number(option))
-} 
+  const patchCategory = () => {
+    updateCategory(state.id, name);
+    navigate("/listCategory")
+  };
 
-const deleteCategorie = () => {
-  removeCategory(11)
-} 
-
-  useEffect(() => {
-    getAllCategories()
-      .then((data) => setCategories(data))
-      .catch((err) => console.log("Erro ao carregar as categorias: " + err));
-  }, []);
+  const deleteCategory = () => {
+    removeCategory(state.id);
+    navigate("/listCategory")
+  };
 
   return (
     <div>
@@ -41,13 +38,13 @@ const deleteCategorie = () => {
           onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
             setName(event?.target.value)
           }
-          helperText="Enter exercise name"
+          helperText="Enter category name"
         />
 
-        <Button onClick={patchCategorie} variant="outlined">
+        <Button onClick={patchCategory} variant="outlined">
           Atualizar
         </Button>
-        <Button onClick={deleteCategorie} variant="outlined">
+        <Button onClick={deleteCategory} variant="outlined">
           Remover
         </Button>
       </FormControl>

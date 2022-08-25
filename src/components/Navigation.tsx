@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
 
 export default function Navigation() {
-  const [path, setPath] = React.useState("");
+  const [path, setPath] = React.useState("home");
   const navigate = useNavigate();
 
   const handleChange = (event: React.SyntheticEvent, newPath: string) => {
@@ -22,6 +22,12 @@ export default function Navigation() {
         aria-label="secondary tabs example"
         centered
       >
+        <Tab
+          value="home"
+          label="Home"
+          onClick={() => navigate("/home")}
+        />
+
         <Tab
           value="listExercise"
           label="Listagem de Exercícios"
@@ -41,6 +47,11 @@ export default function Navigation() {
           value="registerCategory"
           label="Cadastro de Categorias"
           onClick={() => navigate("/registerCategory")}
+        />
+        <Tab
+          value="workoutGenerator"
+          label="Gerar treino"
+          onClick={() => navigate("/workoutGenerator")}
         />
       </Tabs>
       

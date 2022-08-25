@@ -8,12 +8,11 @@ import { ICategory, IExercise } from "../../services/Structure";
 import {
   getAllExercises,
   createExercise,
-  removeExercise,
-  updateExercise,
 } from "../../services/ExerciseService";
 import {
   getAllCategories,
 } from "../../services/CategoryService";
+import { useNavigate } from "react-router-dom";
 
 function RegisterExercise() {
   const [option, setOption] = useState("");
@@ -25,17 +24,12 @@ function RegisterExercise() {
   const [repeat, setRepeat] = useState<string>("");
   const [weight, setWeight] = useState<string>("");
 
+  const navigate = useNavigate();
+
   const handleChangeCategory = (event: React.ChangeEvent<HTMLInputElement>) => {
     setOption(event.target.value);
   };
 
-  const patchExercise = () => {
-    updateExercise(9, name, series, repeat, weight, Number(option));
-  };
-
-  const deleteExercise = () => {
-    removeExercise(11);
-  };
   const saveExercise = () => {
     const erro = [];
     if (name.trim().length == 0) {
@@ -63,6 +57,8 @@ function RegisterExercise() {
       createExercise( name, series, repeat, weight, [
         Number(option),
       ]);
+
+      navigate("/listExercise")
     }
   };
 
@@ -132,19 +128,13 @@ function RegisterExercise() {
           {categories &&
             categories.map((category) => (
               <MenuItem key={category.id} value={category.id}>
-                {category.name} - {category.id}
+                {category.name} 
               </MenuItem>
             ))}
         </TextField>
 
         <Button onClick={saveExercise} variant="outlined">
           Salvar
-        </Button>
-        <Button onClick={patchExercise} variant="outlined">
-          Atualizar
-        </Button>
-        <Button onClick={deleteExercise} variant="outlined">
-          Remover
         </Button>
 
       </FormControl>

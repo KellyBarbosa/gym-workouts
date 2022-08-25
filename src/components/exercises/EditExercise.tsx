@@ -5,41 +5,42 @@ import FormControl from "@mui/material/FormControl";
 
 import { ICategory, IExercise } from "../../services/Structure";
 
-import {getAllExercises, removeExercise, updateExercise} from '../../services/ExerciseService'
-import {
-  getAllCategories,
-} from "../../services/CategoryService";
+import { removeExercise, updateExercise } from "../../services/ExerciseService";
+import { getAllCategories } from "../../services/CategoryService";
+
+import { useLocation, useNavigate } from "react-router-dom";
 
 function EditExercise() {
-  const [option, setOption] = useState("");
-  const [exercises, setExercises] = useState<IExercise[] | undefined>([]);
+  const { state } = useLocation();
+  //console.log(state)
+  const navigate = useNavigate();
+
+  const [option, setOption] = useState(state.idCategory);
   const [categories, setCategories] = useState<ICategory[] | undefined>([]);
 
-  const [name, setName] = useState<string>("");
-  const [series, setSeries] = useState<string>("");
-  const [repeat, setRepeat] = useState<string>("");
-  const [weight, setWeight] = useState<string>("");
+  const [name, setName] = useState<string>(state.exercise.name);
+  const [series, setSeries] = useState<string>(state.exercise.series);
+  const [repeat, setRepeat] = useState<string>(state.exercise.repeat);
+  const [weight, setWeight] = useState<string>(state.exercise.weight);
 
   const handleChangeCategory = (event: React.ChangeEvent<HTMLInputElement>) => {
     setOption(event.target.value);
   };
 
-const patchExercise = () => {
-  updateExercise(9, name, series, repeat, weight, Number(option))
-} 
+  const patchExercise = () => {
+    updateExercise(state.exercise.id, name, series, repeat, weight, Number(option));
+    navigate("/listExercise")
+  };
 
-const deleteExercise = () => {
-  removeExercise(11)
-} 
+  const deleteExercise = () => {
+    removeExercise(state.exercise.id);
+    navigate("/listExercise")
+  };
 
   useEffect(() => {
     getAllCategories()
       .then((data) => setCategories(data))
       .catch((err) => console.log("Erro ao carregar as categorias: " + err));
-
-    getAllExercises()
-      .then((data) => setExercises(data))
-      .catch((err) => console.log("Erro ao carregar os exercícios: " + err));
   }, []);
 
   return (
@@ -98,7 +99,7 @@ const deleteExercise = () => {
           {categories &&
             categories.map((category) => (
               <MenuItem key={category.id} value={category.id}>
-                {category.name} - {category.id}
+                {category.name} 
               </MenuItem>
             ))}
         </TextField>
@@ -109,23 +110,6 @@ const deleteExercise = () => {
         <Button onClick={deleteExercise} variant="outlined">
           Remover
         </Button>
-
-        {/* <InputLabel id="category">Categoria</InputLabel>
-        <Select
-          labelId="category"
-          id="category"
-          value={option}
-          label="Categoria"
-          onChange={handleChange}
-        >
-          <MenuItem value={0}>Selecione uma categoria</MenuItem>
-          {category &&
-            category.map((option) => (
-              <MenuItem key={option.id} value={option.id}>
-                {option.name} - {option.id}
-              </MenuItem>
-            ))}
-        </Select> */}
       </FormControl>
     </div>
   );

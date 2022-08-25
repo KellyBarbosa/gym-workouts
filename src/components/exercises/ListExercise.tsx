@@ -4,8 +4,10 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+
+import { useNavigate } from "react-router-dom";
 
 import { ICategory, IExercise } from "../../services/Structure";
 
@@ -14,9 +16,7 @@ import {
   removeExercise,
 } from "../../services/ExerciseService";
 
-import {
-  getAllCategories,
-} from "../../services/CategoryService";
+import { getAllCategories } from "../../services/CategoryService";
 
 function ListExercise() {
   const [option, setOption] = useState("0");
@@ -25,15 +25,20 @@ function ListExercise() {
   const [exercisesFiltered, setExercisesFiltered] = useState<
     IExercise[] | undefined
   >([]);
+  const navigate = useNavigate();
+
+  function loadExercises() {
+    getAllExercises()
+      .then((data) => setExercises(data))
+      .catch((err) => console.log("Erro ao carregar os exercícios: " + err));
+  }
 
   useEffect(() => {
     getAllCategories()
       .then((data) => setCategories(data))
       .catch((err) => console.log("Erro ao carregar as categorias: " + err));
 
-    getAllExercises()
-      .then((data) => setExercises(data))
-      .catch((err) => console.log("Erro ao carregar os exercícios: " + err));
+    loadExercises();
   }, []);
 
   const filtra = (idCategory: number) => {
@@ -51,6 +56,7 @@ function ListExercise() {
 
   const deleteExercise = (idExercise: number) => {
     removeExercise(idExercise);
+    loadExercises();
   };
 
   return (
@@ -69,25 +75,28 @@ function ListExercise() {
           {categories &&
             categories.map((category) => (
               <MenuItem key={category.id} value={category.id}>
-                {category.name} - {category.id}
+                {category.name} 
               </MenuItem>
             ))}
         </Select>
       </FormControl>
       <hr />
-      {/* {exercises &&
-        exercises.map((option) => <li key={option.id}>{option.name}</li>)}
-      <hr /> */}
       {option == "0" ? (
         <h2>Selecione uma categoria de treino!</h2>
       ) : exercisesFiltered && exercisesFiltered?.length > 0 ? (
-        exercisesFiltered.map((option) => (
-          <li key={option.id}>
-            {option.name}{" "} -----
-            <DeleteIcon onClick={() => deleteExercise(option.id)}/> ----- <EditIcon onClick = {() => console.log("Editar")}/>
+        <ul style={{listStyle: "none"}}>
+        {exercisesFiltered.map((ef) => (
+          <li key={ef.id}>
+            <h4> 
+            {ef.name} -----
+            <DeleteIcon onClick={() => deleteExercise(ef.id)} /> -----{" "}
+            <EditIcon
+              onClick={() => navigate("/editExercise", { state: {exercise: ef, idCategory: option} })}
+            /> 
+            </h4>
           </li>
-        ))
-      ) : (
+        ))}
+        </ul> ) : (
         <h2>Não há exercícios desta categoria cadastrados no momento!</h2>
       )}
     </div>
