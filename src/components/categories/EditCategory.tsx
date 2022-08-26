@@ -9,9 +9,14 @@ import {
 } from "../../services/CategoryService";
 
 import { useLocation, useNavigate } from "react-router-dom";
+interface IDataLocation {
+  id: number;
+  name: string;
+}
 
 function EditCategory() {
-  const { state } = useLocation();
+  const location = useLocation();
+  const state  = location.state as IDataLocation;
   const navigate = useNavigate();
 
   const [name, setName] = useState<string>(state.name);

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
@@ -25,12 +25,17 @@ function ListExercise() {
   const [exercisesFiltered, setExercisesFiltered] = useState<
     IExercise[] | undefined
   >([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   function loadExercises() {
     getAllExercises()
-      .then((data) => setExercises(data))
-      .catch((err) => console.log("Erro ao carregar os exercícios: " + err));
+      .then((data) => {
+        console.log(data);
+        setExercises(data);
+      })
+      .catch((err) => console.log("Erro ao carregar os exercícios: " + err))
+      .finally(() => setLoading(false));
   }
 
   useEffect(() => {
@@ -55,10 +60,15 @@ function ListExercise() {
   };
 
   const deleteExercise = (idExercise: number) => {
-    removeExercise(idExercise);
-    loadExercises();
+    setLoading(true);
+    removeExercise(idExercise).then(() => loadExercises());
+    //loadExercises();
   };
 
+  useMemo(() => {
+    filtra(Number(option));
+  }, [exercises]);
+  
   return (
     <div>
       <h2> Tela de listagem de exercícios por categoria </h2>
@@ -75,7 +85,7 @@ function ListExercise() {
           {categories &&
             categories.map((category) => (
               <MenuItem key={category.id} value={category.id}>
-                {category.name} 
+                {category.name}
               </MenuItem>
             ))}
         </Select>
@@ -83,20 +93,27 @@ function ListExercise() {
       <hr />
       {option == "0" ? (
         <h2>Selecione uma categoria de treino!</h2>
+      ) : loading ? (
+        <h2>Carregando...</h2>
       ) : exercisesFiltered && exercisesFiltered?.length > 0 ? (
-        <ul style={{listStyle: "none"}}>
-        {exercisesFiltered.map((ef) => (
-          <li key={ef.id}>
-            <h4> 
-            {ef.name} -----
-            <DeleteIcon onClick={() => deleteExercise(ef.id)} /> -----{" "}
-            <EditIcon
-              onClick={() => navigate("/editExercise", { state: {exercise: ef, idCategory: option} })}
-            /> 
-            </h4>
-          </li>
-        ))}
-        </ul> ) : (
+        <ul style={{ listStyle: "none" }}>
+          {exercisesFiltered.map((ef) => (
+            <li key={ef.id}>
+              <h4>
+                {ef.name} -----
+                <DeleteIcon onClick={() => deleteExercise(ef.id)} /> -----{" "}
+                <EditIcon
+                  onClick={() =>
+                    navigate("/editExercise", {
+                      state: { exercise: ef, idCategory: option },
+                    })
+                  }
+                />
+              </h4>
+            </li>
+          ))}
+        </ul>
+      ) : (
         <h2>Não há exercícios desta categoria cadastrados no momento!</h2>
       )}
     </div>

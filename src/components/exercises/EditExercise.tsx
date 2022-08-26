@@ -10,9 +10,15 @@ import { getAllCategories } from "../../services/CategoryService";
 
 import { useLocation, useNavigate } from "react-router-dom";
 
+interface IDataLocation {
+  exercise: IExercise;
+  idCategory: string;
+}
+
 function EditExercise() {
-  const { state } = useLocation();
-  //console.log(state)
+  const location = useLocation();
+  const state = location.state as IDataLocation;
+  
   const navigate = useNavigate();
 
   const [option, setOption] = useState(state.idCategory);
@@ -28,13 +34,20 @@ function EditExercise() {
   };
 
   const patchExercise = () => {
-    updateExercise(state.exercise.id, name, series, repeat, weight, Number(option));
-    navigate("/listExercise")
+    updateExercise(
+      state.exercise.id,
+      name,
+      series,
+      repeat,
+      weight,
+      Number(option)
+    );
+    navigate("/listExercise");
   };
 
   const deleteExercise = () => {
     removeExercise(state.exercise.id);
-    navigate("/listExercise")
+    navigate("/listExercise");
   };
 
   useEffect(() => {
@@ -99,7 +112,7 @@ function EditExercise() {
           {categories &&
             categories.map((category) => (
               <MenuItem key={category.id} value={category.id}>
-                {category.name} 
+                {category.name}
               </MenuItem>
             ))}
         </TextField>
