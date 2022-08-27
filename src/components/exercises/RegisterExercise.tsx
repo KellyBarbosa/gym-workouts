@@ -4,8 +4,11 @@ import {
   Box,
   Button,
   Chip,
+  InputLabel,
   MenuItem,
   OutlinedInput,
+  Select,
+  SelectChangeEvent,
   TextField,
 } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
@@ -21,6 +24,17 @@ import {
   getCategoryById,
 } from "../../services/CategoryService";
 import { useNavigate } from "react-router-dom";
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
 
 function RegisterExercise() {
   const [option, setOption] = useState<string[]>([]);
@@ -52,6 +66,15 @@ function RegisterExercise() {
       .catch((err) => console.log("Erro ao carregar as categorias: " + err)); */
   };
 
+  const handleChange = (event: SelectChangeEvent<typeof option>) => {
+    const {
+      target: { value },
+    } = event;
+    setOption(
+      // On autofill we get a stringified value.
+      typeof value === 'string' ? value.split(',') : value,
+    );
+  };
   const saveExercise = () => {
     const erro = [];
     if (name.trim().length == 0) {
@@ -145,30 +168,54 @@ function RegisterExercise() {
           id="category"
           select
           label="Categoria"
-          //value={option}
-          //onChange={handleChangeCategory}
           helperText="Select a category"
           SelectProps={{
             multiple: true,
-            value: option,
-            onChange: handleChangeCategory,
+            value: option, 
+            onChange: handleChangeCategory,      
             renderValue: (selected) => (
               <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
                 {selected.map((value) => (       
-                  <Chip key={value} label={labelName} />
+                  <Chip key={value} label={value} />
                 ))}
               </Box>
-            ),
-            input: <OutlinedInput id="select-multiple-chip" label="Chip" />,
-          }}
+            ),          }}
         >
           {categories &&
             categories.map((category) => (
-              <MenuItem key={category.id} value={category.id}>
+              <MenuItem key={category.id} value={category.name}>
                 {category.name}
               </MenuItem>
             ))}
-        </TextField>
+        </TextField> 
+
+      {/*   <InputLabel id="labelCategory">Categoria</InputLabel>
+        <Select
+          labelId="labelCategory"
+          id="category"
+          multiple
+          value={option}
+          onChange={handleChange}
+          input={<OutlinedInput id="select-multiple-chip" label="Categoria" />}
+          renderValue={(selected) => (
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+              {selected.map((value) => (
+                <Chip key={value} label={value} />
+              ))}
+            </Box>
+          )}
+          MenuProps={MenuProps}
+        >
+          { categories && categories.map((category) => (
+            <MenuItem
+              key={category.id}
+              value={category.name}
+              
+            >
+              {category.name}
+            </MenuItem>
+          ))}
+        </Select> */}
 
         <Button onClick={saveExercise} variant="outlined">
           Salvar
