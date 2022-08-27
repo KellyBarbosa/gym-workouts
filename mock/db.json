@@ -113,6 +113,32 @@
         12,
         6
       ]
+    },
+    {
+      "id": 12,
+      "name": "a",
+      "series": "d",
+      "repeat": "f",
+      "weight": "g",
+      "category": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "id": 13,
+      "name": "a",
+      "series": "c",
+      "repeat": "vd",
+      "weight": "e",
+      "category": [
+        12,
+        11,
+        10,
+        9
+      ]
     }
   ],
   "categories": [

@@ -1,13 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
-import {
-  Box,
-  Button,
-  Chip,
-  MenuItem,
-  OutlinedInput,
-  TextField,
-} from "@mui/material";
+import { Button, MenuItem, TextField } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 
 import { ICategory, IExercise } from "../../services/Structure";
@@ -18,38 +11,23 @@ import {
 } from "../../services/ExerciseService";
 import {
   getAllCategories,
-  getCategoryById,
 } from "../../services/CategoryService";
 import { useNavigate } from "react-router-dom";
 
 function RegisterExercise() {
-  const [option, setOption] = useState<string[]>([]);
+  const [option, setOption] = useState("");
   const [exercises, setExercises] = useState<IExercise[] | undefined>([]);
   const [categories, setCategories] = useState<ICategory[] | undefined>([]);
- const [labelName, setLabelName] = useState<string[]>([]);
-    const [name, setName] = useState<string>("");
-   const [series, setSeries] = useState<string>("");
+
+  const [name, setName] = useState<string>("");
+  const [series, setSeries] = useState<string>("");
   const [repeat, setRepeat] = useState<string>("");
   const [weight, setWeight] = useState<string>("");
 
   const navigate = useNavigate();
 
-  /*  const handleChangeCategory = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setOption(event.target.value);
-  }; */
-  
-
   const handleChangeCategory = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    setOption(typeof value === "string" ? value.split(",") : value);
-    //console.log(value.at(-1));
-    /* getCategoryById(Number(value.at(-1)))
-      .then((data) => {
-        let newLabelName = [...labelName, data.name].toString().split(',')
-        console.log(newLabelName)
-        setLabelName(newLabelName)
-      })
-      .catch((err) => console.log("Erro ao carregar as categorias: " + err)); */
+    setOption(event.target.value);
   };
 
   const saveExercise = () => {
@@ -70,19 +48,17 @@ function RegisterExercise() {
       erro.push("Preencha carga do exercício!");
       //return
     }
-    if (option.length == 0) {
+    if (option == "") {
       erro.push("Preencha categoria do exercício!");
     }
     if (erro.length > 0) {
       console.log(erro);
     } else {
-      let categoryOptions: number[] = [];
-      option.map((op) => {
-        categoryOptions.push(Number(op));
-      });
+      createExercise( name, series, repeat, weight, [
+        Number(option),
+      ]);
 
-      createExercise(name, series, repeat, weight, categoryOptions);
-      navigate("/listExercise");
+      navigate("/listExercise")
     }
   };
 
@@ -95,7 +71,7 @@ function RegisterExercise() {
       .then((data) => setExercises(data))
       .catch((err) => console.log("Erro ao carregar os exercícios: " + err));
   }, []);
-  
+
   return (
     <div>
       {" "}
@@ -145,27 +121,14 @@ function RegisterExercise() {
           id="category"
           select
           label="Categoria"
-          //value={option}
-          //onChange={handleChangeCategory}
+          value={option}
+          onChange={handleChangeCategory}
           helperText="Select a category"
-          SelectProps={{
-            multiple: true,
-            value: option,
-            onChange: handleChangeCategory,
-            renderValue: (selected) => (
-              <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                {selected.map((value) => (       
-                  <Chip key={value} label={labelName} />
-                ))}
-              </Box>
-            ),
-            input: <OutlinedInput id="select-multiple-chip" label="Chip" />,
-          }}
         >
           {categories &&
             categories.map((category) => (
               <MenuItem key={category.id} value={category.id}>
-                {category.name}
+                {category.name} 
               </MenuItem>
             ))}
         </TextField>
@@ -173,6 +136,7 @@ function RegisterExercise() {
         <Button onClick={saveExercise} variant="outlined">
           Salvar
         </Button>
+
       </FormControl>
     </div>
   );
