@@ -1,16 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 
-import {
-  Box,
-  Button,
-  Chip,
-  InputLabel,
-  MenuItem,
-  OutlinedInput,
-  Select,
-  SelectChangeEvent,
-  TextField,
-} from "@mui/material";
+import { Box, Button, Chip, MenuItem, TextField } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 
 import { ICategory, IExercise } from "../../services/Structure";
@@ -19,63 +9,45 @@ import {
   getAllExercises,
   createExercise,
 } from "../../services/ExerciseService";
-import {
-  getAllCategories,
-  getCategoryById,
-} from "../../services/CategoryService";
+import { getAllCategories } from "../../services/CategoryService";
 import { useNavigate } from "react-router-dom";
-
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
+import { MuiSelect } from "../myComponents/MuiSelect";
 
 function RegisterExercise() {
-  const [option, setOption] = useState<string[]>([]);
+  const [options, setOptions] = useState<string[]>([]);
+  //const [returnOptions, setReturnOptions] = useState<boolean>(false);
   const [exercises, setExercises] = useState<IExercise[] | undefined>([]);
   const [categories, setCategories] = useState<ICategory[] | undefined>([]);
- const [labelName, setLabelName] = useState<string[]>([]);
-    const [name, setName] = useState<string>("");
-   const [series, setSeries] = useState<string>("");
+  const [name, setName] = useState<string>("");
+  const [series, setSeries] = useState<string>("");
   const [repeat, setRepeat] = useState<string>("");
   const [weight, setWeight] = useState<string>("");
-
+  const [categoriesFiltered, setCategoriesFiltered] = useState<number[]>([]);
   const navigate = useNavigate();
-
-  /*  const handleChangeCategory = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setOption(event.target.value);
-  }; */
-  
 
   const handleChangeCategory = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
-    setOption(typeof value === "string" ? value.split(",") : value);
-    //console.log(value.at(-1));
-    /* getCategoryById(Number(value.at(-1)))
-      .then((data) => {
-        let newLabelName = [...labelName, data.name].toString().split(',')
-        console.log(newLabelName)
-        setLabelName(newLabelName)
-      })
-      .catch((err) => console.log("Erro ao carregar as categorias: " + err)); */
+    setOptions(typeof value === "string" ? value.split(",") : value);
   };
 
-  const handleChange = (event: SelectChangeEvent<typeof option>) => {
-    const {
-      target: { value },
-    } = event;
-    setOption(
-      // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value,
-    );
+  const filtra = () => {
+    let categoryOptions: number[] = [];
+    options.map((op) => {
+      const filtered = categories?.filter((category) => {
+        return category.name === op;
+      });
+      if(filtered && filtered[0]) {
+        const { id } = filtered[0];
+        categoryOptions.push(id);
+      }  
+    });
+    console.log(categoryOptions);
+    setCategoriesFiltered(categoryOptions);
   };
+
   const saveExercise = () => {
+    filtra();
+    //setReturnOptions(true)
     const erro = [];
     if (name.trim().length == 0) {
       erro.push("Preencha o nome!");
@@ -93,21 +65,28 @@ function RegisterExercise() {
       erro.push("Preencha carga do exercício!");
       //return
     }
-    if (option.length == 0) {
+    if (options.length == 0) {
       erro.push("Preencha categoria do exercício!");
     }
     if (erro.length > 0) {
       console.log(erro);
     } else {
+      //console.log('filtered' + categoriesFiltered);
+      //console.log('categoryOptions' + categoryOptions);
+      /* console.log(options)
       let categoryOptions: number[] = [];
-      option.map((op) => {
+      options.map((op) => {
         categoryOptions.push(Number(op));
-      });
-
-      createExercise(name, series, repeat, weight, categoryOptions);
+      }); */
+      createExercise(name, series, repeat, weight, categoriesFiltered);
       navigate("/listExercise");
     }
   };
+
+  /*   const handleChangeOption = (options: string[]) => {
+      setOptions(options)
+      console.log(options)   
+  } */
 
   useEffect(() => {
     getAllCategories()
@@ -118,7 +97,7 @@ function RegisterExercise() {
       .then((data) => setExercises(data))
       .catch((err) => console.log("Erro ao carregar os exercícios: " + err));
   }, []);
-  
+
   return (
     <div>
       {" "}
@@ -164,22 +143,23 @@ function RegisterExercise() {
           helperText="Enter the weight for this exercise"
         />
 
-        <TextField
+        {/* <TextField
           id="category"
           select
           label="Categoria"
           helperText="Select a category"
           SelectProps={{
             multiple: true,
-            value: option, 
-            onChange: handleChangeCategory,      
+            value: options,
+            onChange: handleChangeCategory,
             renderValue: (selected) => (
               <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                {selected.map((value) => (       
+                {selected.map((value) => (
                   <Chip key={value} label={value} />
                 ))}
               </Box>
-            ),          }}
+            ),
+          }}
         >
           {categories &&
             categories.map((category) => (
@@ -187,35 +167,15 @@ function RegisterExercise() {
                 {category.name}
               </MenuItem>
             ))}
-        </TextField> 
+        </TextField> */}
 
-      {/*   <InputLabel id="labelCategory">Categoria</InputLabel>
-        <Select
-          labelId="labelCategory"
-          id="category"
-          multiple
-          value={option}
-          onChange={handleChange}
-          input={<OutlinedInput id="select-multiple-chip" label="Categoria" />}
-          renderValue={(selected) => (
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-              {selected.map((value) => (
-                <Chip key={value} label={value} />
-              ))}
-            </Box>
-          )}
-          MenuProps={MenuProps}
-        >
-          { categories && categories.map((category) => (
-            <MenuItem
-              key={category.id}
-              value={category.name}
-              
-            >
-              {category.name}
-            </MenuItem>
-          ))}
-        </Select> */}
+        {categories && (
+          <MuiSelect
+            categories={categories}
+            options={options}
+            setOptions={setOptions}
+          />
+        )}
 
         <Button onClick={saveExercise} variant="outlined">
           Salvar

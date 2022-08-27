@@ -105,39 +105,28 @@
     },
     {
       "id": 11,
-      "name": "teste",
-      "series": "4",
-      "repeat": "15",
-      "weight": "0",
+      "name": "a",
+      "series": "b",
+      "repeat": "c",
+      "weight": "d",
       "category": [
+        1,
         12,
-        6
+        10,
+        2
       ]
     },
     {
       "id": 12,
       "name": "a",
-      "series": "d",
-      "repeat": "f",
-      "weight": "g",
+      "series": "b",
+      "repeat": "c",
+      "weight": "d",
       "category": [
         1,
         2,
-        3,
-        4
-      ]
-    },
-    {
-      "id": 13,
-      "name": "a",
-      "series": "c",
-      "repeat": "vd",
-      "weight": "e",
-      "category": [
-        12,
         11,
-        10,
-        9
+        12
       ]
     }
   ],

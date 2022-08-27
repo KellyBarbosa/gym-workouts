@@ -1,35 +1,49 @@
-import { Box, TextField, MenuItem } from "@mui/material";
-import { useState } from "react";
+import { TextField, MenuItem, Box, Chip } from "@mui/material";
+import { useMemo, useState } from "react";
+import { ICategory } from "../../services/Structure";
 
-export const MuiSelect = () => {
-  const [countries, setCountries] = useState<string[]>([]);
-  console.log("--------------------- {}");
-  console.log({ countries });
-  console.log("---------------------");
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    setCountries(typeof value === "string" ? value.split(",") : value);
+interface Props {
+  categories: ICategory[];
+  options: string[];
+  setOptions: (options: string[]) => void;
+  //returnOptions: boolean;
+}
+
+export const MuiSelect = ({ categories, options, setOptions }: Props) => {
+  //const [options, setOptions] = useState<string[]>([]);
+
+  const handleChangeCategory = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setOptions(typeof value === "string" ? value.split(",") : value);
   };
-  console.log(typeof countries)
+
+ 
+
   return (
-    <Box width="250px">
-      <TextField
-        label="Select country"
-        select
-        value={countries}
-        onChange={handleChange}
-        fullWidth
-        SelectProps={{
-          multiple: true,
-        }}
-        size="small"
-        color="secondary"
-        helperText="Please, select your country"
-      >
-        <MenuItem value="IN"> India </MenuItem>
-        <MenuItem value="US"> USA </MenuItem>
-        <MenuItem value="AU"> Australia </MenuItem>
-      </TextField>
-    </Box>
+    <TextField
+      id="category"
+      select
+      label="Categoria"
+      helperText="Select a category"
+      SelectProps={{
+        multiple: true,
+        value: options,
+        onChange: handleChangeCategory,
+        renderValue: (selected) => (
+          <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+            {selected.map((value) => (
+              <Chip key={value} label={value} />
+            ))}
+          </Box>
+        ),
+      }}
+    >
+      {categories &&
+        categories.map((category) => (
+          <MenuItem key={category.id} value={category.name}>
+            {category.name}
+          </MenuItem>
+        ))}
+    </TextField>
   );
 };
