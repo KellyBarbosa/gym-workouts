@@ -102,32 +102,6 @@
       "category": [
         7
       ]
-    },
-    {
-      "id": 11,
-      "name": "a",
-      "series": "b",
-      "repeat": "c",
-      "weight": "d",
-      "category": [
-        1,
-        12,
-        10,
-        2
-      ]
-    },
-    {
-      "id": 12,
-      "name": "a",
-      "series": "b",
-      "repeat": "c",
-      "weight": "d",
-      "category": [
-        1,
-        2,
-        11,
-        12
-      ]
     }
   ],
   "categories": [

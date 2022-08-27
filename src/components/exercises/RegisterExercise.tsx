@@ -15,23 +15,16 @@ import { MuiSelect } from "../myComponents/MuiSelect";
 
 function RegisterExercise() {
   const [options, setOptions] = useState<string[]>([]);
-  //const [returnOptions, setReturnOptions] = useState<boolean>(false);
   const [exercises, setExercises] = useState<IExercise[] | undefined>([]);
   const [categories, setCategories] = useState<ICategory[] | undefined>([]);
   const [name, setName] = useState<string>("");
   const [series, setSeries] = useState<string>("");
   const [repeat, setRepeat] = useState<string>("");
   const [weight, setWeight] = useState<string>("");
-  const [categoriesFiltered, setCategoriesFiltered] = useState<number[]>([]);
+  let categoryOptions: number[] = [];
   const navigate = useNavigate();
 
-  const handleChangeCategory = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    setOptions(typeof value === "string" ? value.split(",") : value);
-  };
-
   const filtra = () => {
-    let categoryOptions: number[] = [];
     options.map((op) => {
       const filtered = categories?.filter((category) => {
         return category.name === op;
@@ -41,13 +34,10 @@ function RegisterExercise() {
         categoryOptions.push(id);
       }  
     });
-    console.log(categoryOptions);
-    setCategoriesFiltered(categoryOptions);
   };
 
   const saveExercise = () => {
     filtra();
-    //setReturnOptions(true)
     const erro = [];
     if (name.trim().length == 0) {
       erro.push("Preencha o nome!");
@@ -71,22 +61,10 @@ function RegisterExercise() {
     if (erro.length > 0) {
       console.log(erro);
     } else {
-      //console.log('filtered' + categoriesFiltered);
-      //console.log('categoryOptions' + categoryOptions);
-      /* console.log(options)
-      let categoryOptions: number[] = [];
-      options.map((op) => {
-        categoryOptions.push(Number(op));
-      }); */
-      createExercise(name, series, repeat, weight, categoriesFiltered);
+      createExercise(name, series, repeat, weight, categoryOptions);
       navigate("/listExercise");
     }
   };
-
-  /*   const handleChangeOption = (options: string[]) => {
-      setOptions(options)
-      console.log(options)   
-  } */
 
   useEffect(() => {
     getAllCategories()
@@ -142,32 +120,6 @@ function RegisterExercise() {
           }
           helperText="Enter the weight for this exercise"
         />
-
-        {/* <TextField
-          id="category"
-          select
-          label="Categoria"
-          helperText="Select a category"
-          SelectProps={{
-            multiple: true,
-            value: options,
-            onChange: handleChangeCategory,
-            renderValue: (selected) => (
-              <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                {selected.map((value) => (
-                  <Chip key={value} label={value} />
-                ))}
-              </Box>
-            ),
-          }}
-        >
-          {categories &&
-            categories.map((category) => (
-              <MenuItem key={category.id} value={category.name}>
-                {category.name}
-              </MenuItem>
-            ))}
-        </TextField> */}
 
         {categories && (
           <MuiSelect
