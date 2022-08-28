@@ -21,12 +21,13 @@ export const removeCategory = async (idCategory: number) => {
     });
 };
 
-export const createCategory = async (name: string) => {
+export const createCategory = async (name: string, idTypeCategory: number) => {
   const response = await getAllCategories();
   api
     .post("/categories", {
       id: response?.at(-1).id + 1,
       name,
+      type: idTypeCategory
     })
     .then(() => {
       console.log("Categoria cadastrada com sucesso!");

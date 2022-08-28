@@ -120,51 +120,86 @@
   "categories": [
     {
       "id": 1,
-      "name": "Peito"
+      "name": "Peito",
+      "type": 2
     },
     {
       "id": 2,
-      "name": "Ombro"
+      "name": "Ombro",
+      "type": 2
     },
     {
       "id": 3,
-      "name": "Tríceps"
+      "name": "Tríceps",
+      "type": 2
     },
     {
       "id": 4,
-      "name": "Costas"
+      "name": "Costas",
+      "type": 2
     },
     {
       "id": 5,
-      "name": "Panturrilha"
+      "name": "Panturrilha",
+      "type": 1
     },
     {
       "id": 6,
-      "name": "Quadríceps"
+      "name": "Quadríceps",
+      "type": 1
     },
     {
       "id": 7,
-      "name": "Posterior"
+      "name": "Posterior",
+      "type": 1
     },
     {
       "id": 8,
-      "name": "Glúteo"
+      "name": "Glúteo",
+      "type": 1
     },
     {
       "id": 9,
-      "name": "Abdominal"
+      "name": "Abdominal",
+      "type": 4
     },
     {
       "id": 10,
-      "name": "Aeróbico"
+      "name": "Aeróbico",
+      "type": 3
     },
     {
       "id": 11,
-      "name": "Bíceps"
+      "name": "Bíceps",
+      "type": 2
     },
     {
       "id": 12,
-      "name": "teste"
+      "name": "teste",
+      "type": 4
+    },
+    {
+      "id": 13,
+      "name": "teste2",
+      "type": 3
+    }
+  ],
+  "types": [
+    {
+      "id": 1,
+      "name": "Inferior"
+    },
+    {
+      "id": 2,
+      "name": "Superior"
+    },
+    {
+      "id": 3,
+      "name": "Cardio"
+    },
+    {
+      "id": 4,
+      "name": "Abdominal"
     }
   ]
 }

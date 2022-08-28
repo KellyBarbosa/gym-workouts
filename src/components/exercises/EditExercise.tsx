@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 
-import { Button, MenuItem, TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 
 import { ICategory, IExercise } from "../../services/Structure";

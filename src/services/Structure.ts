@@ -10,4 +10,10 @@ export interface IExercise {
 export interface ICategory {
   id: number;
   name: string;
+  type: number;
+}
+
+export interface IType {
+  id: number;
+  name: string;
 }

@@ -31,7 +31,6 @@ function ListExercise() {
   function loadExercises() {
     getAllExercises()
       .then((data) => {
-        //console.log(data);
         setExercises(data);
       })
       .catch((err) => console.log("Erro ao carregar os exercícios: " + err))

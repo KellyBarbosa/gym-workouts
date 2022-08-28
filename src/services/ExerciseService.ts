@@ -46,49 +46,6 @@ export const createExercise = async (
     });
 };
 
-/* export const updateExercise = async (
-  idExercise: number,
-  name: string,
-  series: string,
-  repeat: string,
-  weight: string,
-  category: number[]
-) => {
-  const response = await getExerciseById(idExercise);
- 
-   if (!response?.category.includes(category)) {
-    api
-      .patch(`/exercises/${idExercise}`, {
-        name,
-        series,
-        repeat,
-        weight,
-        category: [...response.category, category],
-      })
-      .then(() => {
-        console.log("Exercício atualizado com sucesso!");
-      })
-      .catch((err) => {
-        console.log("Erro ao atualizar o exercício! " + err);
-      });
-  } else {
-    api
-      .patch(`/exercises/${idExercise}`, {
-        name,
-        series,
-        repeat,
-        weight,
-      })
-      .then(() => {
-        console.log("Exercício atualizado com sucesso!");
-      })
-      .catch((err) => {
-        console.log("Erro ao atualizar o exercício! " + err);
-      });
-  }  
-}; */
-
-
 export const updateExercise = async (
   idExercise: number,
   name: string,
