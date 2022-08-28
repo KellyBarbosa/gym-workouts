@@ -38,7 +38,7 @@ function RegisterCategory() {
     }
   };
 
-  const handleChangeCategory = (event: SelectChangeEvent) => {
+  const handleChangeCategory = (event: React.ChangeEvent<HTMLInputElement>) => {
     setOption(event.target.value as string);
   };
 
@@ -65,22 +65,21 @@ function RegisterCategory() {
           helperText="Enter category name"
         />
 
-        <InputLabel id="selectId">Tipo</InputLabel>
-        <Select
-          labelId="selectLabel"
-          id="selectId"
-          value={option}
+        <TextField
+          id="category"
+          select
           label="Tipo"
+          helperText="Select a type"
           onChange={handleChangeCategory}
+          value={option}
         >
-          <MenuItem value={0}>Selecione um tipo</MenuItem>
           {categoryTypes &&
             categoryTypes.map((category) => (
               <MenuItem key={category.id} value={category.id}>
                 {category.name}
               </MenuItem>
             ))}
-        </Select>
+        </TextField>
 
         <Button onClick={saveCategory} variant="outlined">
           Salvar

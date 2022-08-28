@@ -37,10 +37,11 @@ export const createCategory = async (name: string, idTypeCategory: number) => {
     });
 };
 
-export const updateCategory = async (idCategory: number, name: string) => {
+export const updateCategory = async (idCategory: number, name: string, idTypeCategory: number) => {
   api
     .patch(`/categories/${idCategory}`, {
       name,
+      type: idTypeCategory
     })
     .then(() => {
       console.log("Categoria atualizada com sucesso!");
