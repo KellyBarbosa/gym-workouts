@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
-import { Box, Button, Chip, MenuItem, TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 
 import { ICategory, IExercise } from "../../services/Structure";
@@ -11,7 +11,7 @@ import {
 } from "../../services/ExerciseService";
 import { getAllCategories } from "../../services/CategoryService";
 import { useNavigate } from "react-router-dom";
-import { MuiSelect } from "../myComponents/MuiSelect";
+import { SelectCategories } from "../myComponents/SelectCategories";
 
 function RegisterExercise() {
   const [options, setOptions] = useState<string[]>([]);
@@ -122,7 +122,7 @@ function RegisterExercise() {
         />
 
         {categories && (
-          <MuiSelect
+          <SelectCategories
             categories={categories}
             options={options}
             setOptions={setOptions}

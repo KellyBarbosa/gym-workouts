@@ -102,6 +102,19 @@
       "category": [
         7
       ]
+    },
+    {
+      "id": 11,
+      "name": "a",
+      "series": "b",
+      "repeat": "c",
+      "weight": "d",
+      "category": [
+        1,
+        2,
+        6,
+        12
+      ]
     }
   ],
   "categories": [

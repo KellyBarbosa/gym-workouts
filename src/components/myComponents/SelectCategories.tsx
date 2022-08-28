@@ -1,23 +1,18 @@
 import { TextField, MenuItem, Box, Chip } from "@mui/material";
-import { useMemo, useState } from "react";
 import { ICategory } from "../../services/Structure";
 
 interface Props {
   categories: ICategory[];
   options: string[];
   setOptions: (options: string[]) => void;
-  //returnOptions: boolean;
 }
 
-export const MuiSelect = ({ categories, options, setOptions }: Props) => {
-  //const [options, setOptions] = useState<string[]>([]);
+export const SelectCategories = ({ categories, options, setOptions }: Props) => {
 
   const handleChangeCategory = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setOptions(typeof value === "string" ? value.split(",") : value);
   };
-
- 
 
   return (
     <TextField

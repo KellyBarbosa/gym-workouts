@@ -46,13 +46,13 @@ export const createExercise = async (
     });
 };
 
-export const updateExercise = async (
+/* export const updateExercise = async (
   idExercise: number,
   name: string,
   series: string,
   repeat: string,
   weight: string,
-  category: number
+  category: number[]
 ) => {
   const response = await getExerciseById(idExercise);
  
@@ -86,4 +86,30 @@ export const updateExercise = async (
         console.log("Erro ao atualizar o exercício! " + err);
       });
   }  
+}; */
+
+
+export const updateExercise = async (
+  idExercise: number,
+  name: string,
+  series: string,
+  repeat: string,
+  weight: string,
+  category: number[]
+) => {
+    api
+      .patch(`/exercises/${idExercise}`, {
+        name,
+        series,
+        repeat,
+        weight,
+        category
+      })
+      .then(() => {
+        console.log("Exercício atualizado com sucesso!");
+      })
+      .catch((err) => {
+        console.log("Erro ao atualizar o exercício! " + err);
+      });
+ 
 };
