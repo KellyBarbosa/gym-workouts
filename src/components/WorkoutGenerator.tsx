@@ -1,85 +1,46 @@
-import {
-  Autocomplete,
-  Button,
-  FormControl,
-  MenuItem,
-  TextField,
-} from "@mui/material";
+import { Button, FormControl, MenuItem, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import api from "../services/api";
 import { getAllCategories } from "../services/CategoryService";
 import { getAllExercises } from "../services/ExerciseService";
 import { ICategory, IExercise, IType } from "../services/Structure";
-import { SelectCategories } from "./myComponents/SelectCategories";
+import Train from "./Train";
 
 function WorkoutGenerator() {
-  //const [options, setOptions] = useState<string[]>([]);
   const [exercises, setExercises] = useState<IExercise[] | undefined>([]);
   const [categories, setCategories] = useState<ICategory[] | undefined>([]);
-  const [loading, setLoading] = useState(true);
-  const [quantity, setQuantity] = useState<number>();
+  const [createTrain, setCreateTrain] = useState<boolean>(false);
   const [train, setTrain] = useState<IExercise[]>([]);
-  let listExercises: IExercise[] = [];
-
   const [categoryTypes, setCategoryTypes] = useState<IType[] | undefined>(
     undefined
   );
   const [option, setOption] = useState("0");
 
+  let listExercises: IExercise[] = [];
+
   const searchExercises = () => {
+    setCreateTrain(true);
     const typeOfTrain = categories
       ?.filter((category) => category.type === Number(option))
       .map((category) => category.id);
     exercises?.map((exercise) => {
-      console.log(exercise);
-      const x = typeOfTrain?.some((el) => {
+      const aux = typeOfTrain?.some((el) => {
         if (exercise.category.includes(el)) {
-          console.log("El: ", el);
           return el;
         }
       });
-      if (x) {
-        console.log("Entrou no if");
-        listExercises.push(exercise)
-        console.log("listExercises: ", listExercises);
+      if (aux) {
+        listExercises.push(exercise);
       }
-
-      /* exercise.category.map((c) => {
-        console.log(c)
-        if(typeOfTrain?.includes(c)){
-          return exercise
-        }
-
-      }) */
-
-      console.log("x: ", x);
     });
     setTrain(listExercises);
-    //console.log("typeOfTrain: ", typeOfTrain);
-    //console.log("Train: ", train);
   };
 
   const handleChangeCategory = (event: React.ChangeEvent<HTMLInputElement>) => {
     setOption(event.target.value as string);
+    setCreateTrain(false)
   };
 
-  /* function loadExercises() {
-    getAllExercises()
-      .then((data) => {
-        setExercises(data);
-      })
-      .catch((err) => console.log("Erro ao carregar os exercícios: " + err))
-      .finally(() => setLoading(false));
-  }
-
-  useEffect(() => {
-    getAllCategories()
-      .then((data) => setCategories(data))
-      .catch((err) => console.log("Erro ao carregar as categorias: " + err));
-
-    loadExercises();
-  }, []);
- */
   useEffect(() => {
     api
       .get("/types")
@@ -99,72 +60,43 @@ function WorkoutGenerator() {
       .catch((err) => console.log("Erro ao carregar os exercícios: " + err));
   }, []);
 
-  //console.log(quantity);
-  //console.log(option)
-
   return (
     <div>
       <h1> Workout generator </h1>
       <FormControl fullWidth>
-          <TextField
-            id="category"
-            select
-            label="Tipo de treino"
-            helperText="Select a type"
-            onChange={handleChangeCategory}
-            value={option}
-          >
-            {categoryTypes &&
-              categoryTypes.map((category) => (
-                <MenuItem key={category.id} value={category.id}>
-                  {category.name}
-                </MenuItem>
-              ))}
-          </TextField>
+        <TextField
+          id="category"
+          select
+          label="Tipo de treino"
+          helperText="Select a type"
+          onChange={handleChangeCategory}
+          value={option}
+        >
+          <MenuItem value={0}>Selecione uma categoria</MenuItem>
+          {categoryTypes &&
+            categoryTypes.map((category) => (
+              <MenuItem key={category.id} value={category.id}>
+                {category.name}
+              </MenuItem>
+            ))}
+        </TextField>
 
-          <Button onClick={searchExercises} variant="outlined">
-            Gerar
-          </Button>
-        </FormControl>
-      {/* {train.length == 0 ? (
-        <FormControl fullWidth>
-          <TextField
-            id="category"
-            select
-            label="Tipo de treino"
-            helperText="Select a type"
-            onChange={handleChangeCategory}
-            value={option}
-          >
-            {categoryTypes &&
-              categoryTypes.map((category) => (
-                <MenuItem key={category.id} value={category.id}>
-                  {category.name}
-                </MenuItem>
-              ))}
-          </TextField>
+        <Button onClick={searchExercises} variant="outlined">
+          Gerar
+        </Button>
+      </FormControl>
 
-          <Button onClick={searchExercises} variant="outlined">
-            Gerar
-          </Button>
-        </FormControl>
+      {option == "0" ? (
+        <h2>Selecione um tipo de treino!</h2>
+      ) : createTrain ? (
+        train && train.length > 0 ? (
+          <Train exercises={train} />
+        ) : (
+          <h2>Não há exercícios desta categoria cadastrados no momento!</h2>
+        )
       ) : (
-        <ul style={{ listStyle: "none" }}>
-          {train.map((ef) => (
-            <li key={ef.id}>
-              <h4>{ef.name}</h4>
-            </li>
-          ))}
-        </ul>
-      )} */}
-
-      {train && <ul style={{ listStyle: "none" }}>
-          {train.map((ef) => (
-            <li key={ef.id}>
-              <h4>{ef.name}</h4>
-            </li>
-          ))}
-        </ul>}
+        <h2> Clique para gerar um treino! </h2>
+      )}
     </div>
   );
 }
