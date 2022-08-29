@@ -18,7 +18,7 @@ function EditCategory() {
   const location = useLocation();
   const state = location.state as IDataLocation;
   const navigate = useNavigate();
-console.log(state)
+  console.log(state);
   const [name, setName] = useState<string>(state.name);
   const [option, setOption] = useState(state.type);
   const [categoryTypes, setCategoryTypes] = useState<IType[] | null>(null);

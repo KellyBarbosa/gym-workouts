@@ -105,15 +105,12 @@
     },
     {
       "id": 11,
-      "name": "a",
-      "series": "b",
-      "repeat": "c",
-      "weight": "d",
+      "name": "Abdominal Isométrico",
+      "series": "4",
+      "repeat": "40''",
+      "weight": "0",
       "category": [
-        1,
-        2,
-        6,
-        12
+        9
       ]
     }
   ],
