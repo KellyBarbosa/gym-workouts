@@ -6,6 +6,19 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import { Box } from "@mui/system";
+import {
+  Grid,
+  IconButton,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  Typography,
+} from "@mui/material";
+import DeleteTwoTone from "@mui/icons-material/DeleteTwoTone";
+import EditTwoTone from "@mui/icons-material/EditTwoTone";
+import LabelImportantTwoTone from "@mui/icons-material/LabelImportantTwoTone";
 
 import { useNavigate } from "react-router-dom";
 
@@ -61,13 +74,12 @@ function ListExercise() {
   const deleteExercise = (idExercise: number) => {
     setLoading(true);
     removeExercise(idExercise).then(() => loadExercises());
-    //loadExercises();
   };
 
   useMemo(() => {
     filtra(Number(option));
   }, [exercises]);
-  
+
   return (
     <div>
       <h2> Tela de listagem de exercícios por categoria </h2>
@@ -95,7 +107,7 @@ function ListExercise() {
       ) : loading ? (
         <h2>Carregando...</h2>
       ) : exercisesFiltered && exercisesFiltered?.length > 0 ? (
-        <ul style={{ listStyle: "none" }}>
+        /*  <ul style={{ listStyle: "none" }}>
           {exercisesFiltered.map((ef) => (
             <li key={ef.id}>
               <h4>
@@ -111,7 +123,57 @@ function ListExercise() {
               </h4>
             </li>
           ))}
-        </ul>
+        </ul> */
+        <Box sx={{ flexGrow: 1 }}>
+          <Grid container justifyContent="center">
+            <Grid item md={4}>
+              {/*  <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div"  color="darkmagenta">
+              Exercícios cadastrados por categoria
+            </Typography>
+            <Demo> */}
+              <List dense={true}>
+                {exercisesFiltered &&
+                  exercisesFiltered.map((ef) => (
+                    <ListItem
+                      key={ef.id}
+                      secondaryAction={
+                        <>
+                          <IconButton edge="end" aria-label="delete">
+                            <DeleteTwoTone
+                              fontSize="small"
+                              color="primary"
+                              onClick={() => deleteExercise(ef.id)}
+                            />
+                          </IconButton>
+
+                          <IconButton edge="end" aria-label="edit">
+                            <EditTwoTone
+                              fontSize="small"
+                              color="primary"
+                              onClick={() =>
+                                navigate("/editExercise", {
+                                  state: { exercise: ef, idCategory: option },
+                                })
+                              }
+                            />
+                          </IconButton>
+                        </>
+                      }
+                    >
+                      <ListItemAvatar>
+                        <LabelImportantTwoTone
+                          fontSize="small"
+                          color="primary"
+                        />
+                      </ListItemAvatar>
+                      <ListItemText primary={ef.name} />
+                    </ListItem>
+                  ))}
+              </List>
+              {/* </Demo> */}
+            </Grid>
+          </Grid>
+        </Box>
       ) : (
         <h2>Não há exercícios desta categoria cadastrados no momento!</h2>
       )}
