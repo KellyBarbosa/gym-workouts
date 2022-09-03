@@ -1,4 +1,4 @@
-import api from "../services/api";
+import api from "./api";
 
 export const getAllExercises = async () => {
   const { data } = await api.get("/exercises");

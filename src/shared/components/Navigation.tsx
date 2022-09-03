@@ -4,9 +4,14 @@ import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
 
+import LightModeTwoToneIcon from "@mui/icons-material/LightModeTwoTone";
+import DarkModeTwoToneIcon from "@mui/icons-material/DarkModeTwoTone";
+import { useAppThemeContext } from "../context/ThemeContext";
+
 export default function Navigation() {
   const [path, setPath] = React.useState("home");
   const navigate = useNavigate();
+  const { toggleTheme, themeName } = useAppThemeContext();
 
   const handleChange = (event: React.SyntheticEvent, newPath: string) => {
     setPath(newPath);
@@ -22,11 +27,7 @@ export default function Navigation() {
         aria-label="secondary tabs example"
         centered
       >
-        <Tab
-          value="home"
-          label="Home"
-          onClick={() => navigate("/home")}
-        />
+        <Tab value="home" label="Home" onClick={() => navigate("/home")} />
 
         <Tab
           value="listExercise"
@@ -53,8 +54,18 @@ export default function Navigation() {
           label="Gerar treino"
           onClick={() => navigate("/workoutGenerator")}
         />
+        <Tab
+          value={null}
+          label={
+            themeName === "dark" ? (
+              <LightModeTwoToneIcon />
+            ) : (
+              <DarkModeTwoToneIcon />
+            )
+          }
+          onClick={toggleTheme}
+        />
       </Tabs>
-      
     </Box>
   );
 }

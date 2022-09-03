@@ -1,14 +1,14 @@
 import { Route, Routes } from "react-router-dom";
-import ListCategory from "./components/categories/ListCategory";
-import EditCategory from "./components/categories/EditCategory";
-import RegisterCategory from "./components/categories/RegisterCategory";
+import ListCategory from "../components/categories/ListCategory";
+import EditCategory from "../components/categories/EditCategory";
+import RegisterCategory from "../components/categories/RegisterCategory";
 
-import ListExercise from "./components/exercises/ListExercise";
-import EditExercise from "./components/exercises/EditExercise";
-import RegisterExercise from "./components/exercises/RegisterExercise";
+import ListExercise from "../components/exercises/ListExercise";
+import EditExercise from "../components/exercises/EditExercise";
+import RegisterExercise from "../components/exercises/RegisterExercise";
 
-import Home from "./components/Home";
-import WorkoutGenerator from "./components/WorkoutGenerator";
+import Home from "../components/Home";
+import WorkoutGenerator from "../components/WorkoutGenerator";
 
 function AppRoutes() {
   return (
