@@ -1,9 +1,9 @@
 import { Button, FormControl, MenuItem, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
-import api from "../services/api";
-import { getAllCategories } from "../services/CategoryService";
-import { getAllExercises } from "../services/ExerciseService";
-import { ICategory, IExercise, IType } from "../services/Structure";
+import api from "../shared/services/api";
+import { getAllCategories } from "../shared/services/CategoryService";
+import { getAllExercises } from "../shared/services/ExerciseService";
+import { ICategory, IExercise, IType } from "../shared/services/Structure";
 import Train from "./Train";
 
 function WorkoutGenerator() {

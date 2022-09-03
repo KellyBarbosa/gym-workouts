@@ -7,8 +7,8 @@ import ListExercise from "../components/exercises/ListExercise";
 import EditExercise from "../components/exercises/EditExercise";
 import RegisterExercise from "../components/exercises/RegisterExercise";
 
-import Home from "../components/Home";
-import WorkoutGenerator from "../components/WorkoutGenerator";
+import Home from "../../pages/Home2";
+import WorkoutGenerator from "../../pages/WorkoutGenerator";
 
 function AppRoutes() {
   return (

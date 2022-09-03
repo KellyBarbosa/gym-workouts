@@ -6,7 +6,9 @@ import { useNavigate } from "react-router-dom";
 
 import LightModeTwoToneIcon from "@mui/icons-material/LightModeTwoTone";
 import DarkModeTwoToneIcon from "@mui/icons-material/DarkModeTwoTone";
-import { useAppThemeContext } from "../context/ThemeContext";
+import { useAppThemeContext } from "../../context/ThemeContext";
+
+import './style.css'
 
 export default function Navigation() {
   const [path, setPath] = React.useState("home");
@@ -18,13 +20,15 @@ export default function Navigation() {
   };
 
   return (
-    <Box sx={{ width: "100%" }}>
+    <Box sx={{ width: "100%"}} className="navbar"   >
       <Tabs
         value={path}
         onChange={handleChange}
         textColor="secondary"
         indicatorColor="secondary"
         aria-label="secondary tabs example"
+        variant="scrollable"
+        scrollButtons="auto"
         centered
       >
         <Tab value="home" label="Home" onClick={() => navigate("/home")} />

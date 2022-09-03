@@ -1,18 +1,25 @@
 import { BrowserRouter } from "react-router-dom";
-//import "./App.css";
-
-import Navigation from "./shared/components/Navigation";
+import Navigation from "./shared/components/navbar/Navigation";
 import AppRoutes from "./shared/routes/routes";
 import { AppThemeProvider } from "./shared/context/ThemeContext";
-
+import Box from "@mui/material/Box";
 function App() {
   return (
     <AppThemeProvider>
       <BrowserRouter>
-        <div className="App">
-          <Navigation />
-          <AppRoutes />
-        </div>
+        <Box
+          sx={{
+            display: "grid",
+            gap: 5,
+          }}
+        >
+          <Box>
+            <Navigation />
+          </Box>
+          <Box>
+            <AppRoutes />
+          </Box>
+        </Box>
       </BrowserRouter>
     </AppThemeProvider>
   );
