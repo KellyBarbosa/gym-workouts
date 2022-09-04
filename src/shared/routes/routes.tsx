@@ -7,7 +7,7 @@ import ListExercise from "../components/exercises/ListExercise";
 import EditExercise from "../components/exercises/EditExercise";
 import RegisterExercise from "../components/exercises/RegisterExercise";
 
-import Home from "../../pages/Home2";
+import Home from "../../pages/Home";
 import WorkoutGenerator from "../../pages/WorkoutGenerator";
 
 function AppRoutes() {

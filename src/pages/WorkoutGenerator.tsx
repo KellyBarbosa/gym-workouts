@@ -1,10 +1,10 @@
 import { Button, FormControl, MenuItem, TextField } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import api from "../shared/services/api";
 import { getAllCategories } from "../shared/services/CategoryService";
 import { getAllExercises } from "../shared/services/ExerciseService";
 import { ICategory, IExercise, IType } from "../shared/services/Structure";
-import Train from "./Train";
+import { downloadPdf } from "./TrainExport";
 
 function WorkoutGenerator() {
   const [exercises, setExercises] = useState<IExercise[] | undefined>([]);
@@ -38,7 +38,7 @@ function WorkoutGenerator() {
 
   const handleChangeCategory = (event: React.ChangeEvent<HTMLInputElement>) => {
     setOption(event.target.value as string);
-    setCreateTrain(false)
+    setCreateTrain(false);
   };
 
   useEffect(() => {
@@ -90,7 +90,11 @@ function WorkoutGenerator() {
         <h2>Selecione um tipo de treino!</h2>
       ) : createTrain ? (
         train && train.length > 0 ? (
-          <Train exercises={train} />
+          <>
+            {downloadPdf(option, train)}
+            {/* <Train exercises={train} /> */}
+            {/*  <TrainExport exercises={train} typeOfTrain={option} /> */}
+          </>
         ) : (
           <h2>Não há exercícios desta categoria cadastrados no momento!</h2>
         )

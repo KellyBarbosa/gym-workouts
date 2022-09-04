@@ -27,8 +27,8 @@ export default function Navigation() {
         textColor="secondary"
         indicatorColor="secondary"
         aria-label="secondary tabs example"
-        variant="scrollable"
-        scrollButtons="auto"
+        /* variant="scrollable"
+        scrollButtons="auto" */
         centered
       >
         <Tab value="home" label="Home" onClick={() => navigate("/home")} />
